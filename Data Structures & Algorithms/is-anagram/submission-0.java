@@ -1,24 +1,31 @@
+import java.util.HashMap;
+import java.util.Map;
+
 class Solution {
     public boolean isAnagram(String s, String t) {
-
-        if(s.length() != t.length()) {
+        if (s.length() != t.length()) {
             return false;
         }
 
-            Map<Character, Integer> count = new HashMap<>();
+        Map<Character, Integer> count = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            count.put(s.charAt(i), count.getOrDefault(s.charAt(i), 0) + 1);
+            count.put(t.charAt(i), count.getOrDefault(t.charAt(i), 0) - 1);
+        }
 
-            for(int i=0; i<s.length(); i++) {
-                count.put(s.charAt(i), count.getOrDefault(s.charAt(i),0)+1);
-                count.put(t.charAt(i), count.getOrDefault(t.charAt(i),0) - 1);
-
+        for (int val : count.values()) {
+            if (val != 0) {
+                return false;
             }
+        }
+        return true;
+    }
 
-            for(int val: count.values()) {
-                if(val !=0) {
-                    return false;
-                }
-            }
-            return true;
+    public static void main(String[] args) {
+        Solution sol = new Solution();
 
+        System.out.println(sol.isAnagram("anagram", "nagaram")); // true
+        System.out.println(sol.isAnagram("rat", "car"));         // false
+        System.out.println(sol.isAnagram("listen", "silent"));   // true
     }
 }
